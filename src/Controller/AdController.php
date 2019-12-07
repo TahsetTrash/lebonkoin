@@ -55,26 +55,25 @@ class AdController extends AbstractController
         $user = $this->getUser();
         //On test si il y a un utilisateur de connecter
         $ad = $this->manager->find(Ad::class,$id); //On créé notre annonce
+        $form = $this->createForm(AdType::class,$ad);
         if ($user && $user->getId() == $ad->getOwnerId()) {
-
-
             if (!$ad) {
                 throw $this->createNotFoundException(
                     'No ad found for id '.$id
                 );
             }
             //On récupere le formulaire
-            $form = $this->createForm(AdType::class,$ad);
             $form->handleRequest($request);
             //Si le formulaire est valide on push l'annonce.
             if ($form->isSubmitted() && $form->isValid()) {
-                //$ad->setOwnerId($user->getId());
                 $this->manager->flush();
                 return $this->redirectToRoute('home');
             }
         }
-        return $this->redirectToRoute('ad/modify/html.twig', [
-            'ad' => $ad
+
+
+        return $this->render('home/createAd.html.twig', [
+            'ad' => $ad ,  'form' => $form->createView()
         ]);
     }
 
