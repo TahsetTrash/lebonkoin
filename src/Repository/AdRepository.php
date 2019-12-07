@@ -34,6 +34,19 @@ class AdRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findAdsByField($field)
+    {
+        $query = $this->createQueryBuilder('a');
+        return $query
+            //->where('a.ownerId = :val')
+            ->add('where', $query->expr()->in('a.name',':val' ))
+            ->setParameter('val',$field )
+            ->orderBy('a.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Ad
