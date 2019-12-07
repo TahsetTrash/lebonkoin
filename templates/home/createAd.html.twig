@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Connexion</h1>
+
+    {{ form_start(form) }}
+    <div class="row">
+    <div class="col-md-1">{{ form_row(form.name, {'label': 'Nom de l\'annonce','attr':{'placeholder':'Nom de l\'annonce'}}) }}</div>
+    <div class="col-md-4">{{ form_row(form.description, {'label': 'Description','attr':{'placeholder':'Description'}}) }}</div>
+    <div class="col-md-4"> {{ form_row(form.price, {'label': 'Prix','attr':{'placeholder':'Prix'}}) }}</div>
+        <div class="col-md-4"> {{ form_row(form.imagefile) }}</div>
+    </div>
+    <button type="submit" class="btn btn-succes">Créé mon annonce</button>
+    {{ form_end(form) }}
+
+{% endblock %}

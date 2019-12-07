@@ -1,0 +1,29 @@
+{% block body %}
+    <div class="row flex">
+        {% for ad in ads %}
+
+
+            <div class = "col-3">
+                <div class = "card">
+
+                    {% if ad.filename %}
+                        <img src="../images/ads/{{ ad.filename }}" alt="card-img-top" style="width:100%; height: 100% ;">
+                    {% endif %}
+
+                    <div class = "card-body">
+                        <h5 class = "card-title">
+                            <a href={{ path("ad", {id : ad.id}) }}>{{ ad.name }}</a>
+                        </h5>
+                        <p class = "card-text"> {{ ad.description }} </p>
+                        <h5 class = "card-text"> {{ ad.price }}€ </h5>
+                    </div>
+                    {% if app.user %}
+                        <a href={{ path("modify_ad", {id: ad.id}) }}>
+                            <button type="submit" class="btn btn-primary">Modifier</button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
