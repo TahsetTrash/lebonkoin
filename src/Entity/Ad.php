@@ -36,7 +36,6 @@ class Ad
      * )
      * @Vich\UploadableField(mapping="ad_image",fileNameProperty="filename")
      */
-
     private $imagefile;
 
     /**
@@ -63,6 +62,12 @@ class Ad
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="ads")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -168,8 +173,16 @@ class Ad
         return $this;
     }
 
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
 
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
-
+        return $this;
+    }
 
 }

@@ -20,17 +20,14 @@ class HomeController extends AbstractController
         $search = new AdSearch();
         $form = $this->createForm(AdSearchType::class,$search);
         $form->handleRequest($request);
-
-
         if ($search->getField() == '') {
             $ads = $repository->findAll();
         } else {
-            $ads = $repository->findAdsByField($search->getField());
+            $ads = $repository->findAdsByField($search->getField(),$search->getCategory());
         }
         return $this->render('home/index.html.twig', [
             'ads'=>$ads,
             'form' => $form->createView()
         ]);
     }
-
 }

@@ -27,23 +27,18 @@ class AdController extends AbstractController
      */
     public function createAd(Request $request,EntityManagerInterface $manager) {
         $user = $this->getUser();
-        //On test si il y a un utilisateur de connecter
-        $ad = new Ad(); //On créé notre annonce
+        $ad = new Ad();
         if ($user->getUsername() != "anon") {
-
-        //On récupere le formulaire
-        $form = $this->createForm(AdType::class,$ad);
-        $form->handleRequest($request);
-        //Si le formulaire est valide on push l'annonce.
-        if ($form->isSubmitted() && $form->isValid()) {
+            $form = $this->createForm(AdType::class,$ad);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
                 $ad->setOwnerId($user->getId());
                 $manager->persist($ad);
                 $manager->flush();
                 return $this->redirectToRoute('home');
             }
         }
-        //Si il n'y a pas d'utilisateur on revois sur la homepage.
-        return $this->render('home/createAd.html.twig', [
+        return $this->render('ad/createAd.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -53,28 +48,25 @@ class AdController extends AbstractController
      */
     public function modifyAd(Request $request,$id) : Response {
         $user = $this->getUser();
-        //On test si il y a un utilisateur de connecter
-        $ad = $this->manager->find(Ad::class,$id); //On créé notre annonce
-        $form = $this->createForm(AdType::class,$ad);
+        $ad = $this->manager->find(Ad::class, $id);
         if ($user && $user->getId() == $ad->getOwnerId()) {
+
+            $form = $this->createForm(AdType::class, $ad);
             if (!$ad) {
                 throw $this->createNotFoundException(
-                    'No ad found for id '.$id
+                    'No ad found for id ' . $id
                 );
             }
-            //On récupere le formulaire
             $form->handleRequest($request);
-            //Si le formulaire est valide on push l'annonce.
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->manager->flush();
                 return $this->redirectToRoute('home');
             }
+            return $this->render('ad/modifyAd.html.twig', [
+                'ad' => $ad, 'form' => $form->createView()
+            ]);
         }
-
-
-        return $this->render('home/createAd.html.twig', [
-            'ad' => $ad ,  'form' => $form->createView()
-        ]);
+        return $this->redirectToRoute('home');
     }
 
     /**

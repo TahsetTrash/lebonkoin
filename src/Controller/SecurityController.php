@@ -20,13 +20,11 @@ class SecurityController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationType::class,$user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
             $manager->persist($user);
             $manager->flush();
-
             return $this->redirectToRoute('security_login');
         }
 
@@ -40,11 +38,9 @@ class SecurityController extends AbstractController
     public function login(){
         return $this->render('security/login.html.twig');
     }
-
     /**
      * @Route("/deconnexion",name="security_logout")
      */
     public function logout(){
-
     }
 }
