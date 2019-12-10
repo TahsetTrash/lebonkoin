@@ -15,7 +15,7 @@ class AdSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('field', SearchType::class,[
+            ->add('field', SearchType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
@@ -24,9 +24,9 @@ class AdSearchType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
+                'label' => false,
                 'placeholder' => 'Choisissez une catégorie'
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

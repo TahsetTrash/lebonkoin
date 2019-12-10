@@ -1,19 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}LaBonnePub{% endblock %}
 
 {% block body %}
-    <div class="jumbotron text-center">
-        <h1>Bienvenue sur la homepage</h1>
+    <div class="jumbotron text-center text-white bg-primary">
+        <h1>La Bonne Pub</h1>
+        <h4>La Bonne Pub te permet de poster ta pub ici pour faire découvrir ton travail au monde !</h4>
     </div>
     <div class="jumbotron">
         <div class="container">
             {{ form_start(form) }}
-            <div class="col">
-                {{ form_row(form.field) }}
-                {{ form_row(form.category, {'label':' '}) }}
+            <div class="row" style="margin-left: auto; margin-right: auto;">
+                <div class="col">
+
+                    {{ form_row(form.field) }}
+                </div>
+
+                <div class="col">
+                    {{ form_row(form.category) }}
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Chercher une pub</button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Chercher</button>
+
             {{ form_end(form) }}
         </div>
     </div>

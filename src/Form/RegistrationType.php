@@ -14,11 +14,10 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email')
-            ->add('username')
-            ->add('password', PasswordType::class)
-            ->add('confirm_password',PasswordType::class)
-        ;
+            ->add('email', null, array('label' => false))
+            ->add('username', null, array('label' => false))
+            ->add('password', PasswordType::class, array('label' => false))
+            ->add('confirm_password', PasswordType::class, array('label' => false));
     }
 
     public function configureOptions(OptionsResolver $resolver)

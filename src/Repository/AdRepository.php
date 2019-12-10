@@ -27,26 +27,25 @@ class AdRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->where('a.ownerId = :val')
-            ->setParameter('val',$ownerId )
+            ->setParameter('val', $ownerId)
             ->orderBy('a.name', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
-    public function findAdsByField($field,$category)
+    public function findAdsByField($field, $category)
     {
         $query = $this->createQueryBuilder('a');
         return $query
             //->where('a.ownerId = :val')
-            ->where('a.name LIKE :val')
+            ->andwhere('a.name LIKE :val')
             ->andWhere('a.category = :category')
-            ->setParameter('val', '%'.$field.'%' )
-            ->setParameter('category',$category)
+            ->orWhere('a.description LIKE :val')
+            ->setParameter('val', '%' . $field . '%')
+            ->setParameter('category', $category)
             ->orderBy('a.name', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
 

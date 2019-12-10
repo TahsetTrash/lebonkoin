@@ -23,10 +23,9 @@ class AdType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name'
             ])
-            ->add('imagefile',FileType::class,[
+            ->add('imagefile', FileType::class, [
                 'required' => false
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -2,10 +2,12 @@
 
 
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 
-class AdSearch{
+class AdSearch
+{
 
     private $field;
 
@@ -27,7 +29,7 @@ class AdSearch{
      * @param string|null $field
      * @return AdSearch
      */
-    public function setField(?string $field) : AdSearch
+    public function setField(?string $field): AdSearch
     {
         $this->field = $field;
         return $this;

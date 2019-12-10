@@ -15,18 +15,18 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(AdRepository $repository,Request $request) : Response
+    public function index(AdRepository $repository, Request $request): Response
     {
         $search = new AdSearch();
-        $form = $this->createForm(AdSearchType::class,$search);
+        $form = $this->createForm(AdSearchType::class, $search);
         $form->handleRequest($request);
-        if ($search->getField() == '') {
+        if ($search->getField() == '' && $search->getCategory()) {
             $ads = $repository->findAll();
         } else {
-            $ads = $repository->findAdsByField($search->getField(),$search->getCategory());
+            $ads = $repository->findAdsByField($search->getField(), $search->getCategory());
         }
         return $this->render('home/index.html.twig', [
-            'ads'=>$ads,
+            'ads' => $ads,
             'form' => $form->createView()
         ]);
     }

@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Form\AdType;
+use App\Entity\Ad;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Entity\Ad;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdController extends AbstractController
@@ -16,7 +17,8 @@ class AdController extends AbstractController
 
     private $repository;
     private $manager;
-    public function __construct(AdRepository $repository,EntityManagerInterface $manager)
+
+    public function __construct(AdRepository $repository, EntityManagerInterface $manager)
     {
         $this->repository = $repository;
         $this->manager = $manager;
@@ -25,11 +27,12 @@ class AdController extends AbstractController
     /**
      * @Route("/createAd", name="create_ad")
      */
-    public function createAd(Request $request,EntityManagerInterface $manager) {
+    public function createAd(Request $request, EntityManagerInterface $manager)
+    {
         $user = $this->getUser();
         $ad = new Ad();
         if ($user->getUsername() != "anon") {
-            $form = $this->createForm(AdType::class,$ad);
+            $form = $this->createForm(AdType::class, $ad);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $ad->setOwnerId($user->getId());
@@ -43,10 +46,12 @@ class AdController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/modifyAd/{id}",name="modify_ad")
      */
-    public function modifyAd(Request $request,$id) : Response {
+    public function modifyAd(Request $request, $id): Response
+    {
         $user = $this->getUser();
         $ad = $this->manager->find(Ad::class, $id);
         if ($user && $user->getId() == $ad->getOwnerId()) {
@@ -70,9 +75,34 @@ class AdController extends AbstractController
     }
 
     /**
+     * @Route("/deleteAd/{id}",name="delete_ad")
+     */
+    public function deleteAd(Request $request, $id): Response
+    {
+        $user = $this->getUser();
+        $ad = $this->manager->find(Ad::class, $id);
+        if ($user && $user->getId() == $ad->getOwnerId()) {
+
+
+            if (!$ad) {
+                throw $this->createNotFoundException(
+                    'No ad found for id ' . $id
+                );
+            }
+            $this->manager->remove($ad);
+            $this->manager->flush();
+            return $this->redirectToRoute('home');
+
+
+        }
+        return $this->redirectToRoute('home');
+    }
+
+    /**
      * @Route("/userAds",name="user_ads")
      */
-    public function getUserAds() {
+    public function getUserAds()
+    {
         $user = $this->getUser();
         if ($user->getUsername() != "anon") {
             $ads = $this->repository->findAdsByOwnerId($user->getId());
@@ -84,15 +114,29 @@ class AdController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/jsonAd/{id}",name="json_ad")
+     */
+    public function jsonAd($id): Response
+    {
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new DateTimeNormalizer(), new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+        $ad = $this->repository->find($id);
+        $data = $this->get($serializer)->serialize($ad, 'json');
+
+        return new JsonResponse($data);
+    }
+
 
     /**
      * @Route("/ad/{id}",name="ad")
      */
-    public function index($id) : Response
+    public function index($id): Response
     {
         $ad = $this->repository->find($id);
         return $this->render('ad/index.html.twig', [
-            'ad'=>$ad
+            'ad' => $ad
         ]);
     }
 }
