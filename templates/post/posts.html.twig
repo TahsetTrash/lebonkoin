@@ -1,0 +1,35 @@
+{% block body %}
+    <div class="row flex mx-auto">
+        {% for post in posts %}
+            <div class="col-3">
+                <div class="card">
+
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a>{{ post.name }} </a>
+                        </h5>
+
+                        <h6> {{ post.category.name }}</h6>
+
+                        <p class="card-text"> {{ post.description }} </p>
+                        <a class="card-text"> Downloads : {{ post.downloads }} </a>
+
+                    </div>
+                    {% if app.user and app.user.id == post.ownerId %}
+                        <div class="card-body">
+                            <a href={{ path("modify_post", {id: post.id}) }}>
+                                <button type="submit" class="btn btn-primary">Edit</button>
+                            </a>
+                            <a href={{ path("delete_post", {id: post.id}) }}>
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </a>
+                            <a href={{ path("download_post", {id: post.id}) }}>
+                                <button type="submit" class="btn btn-success">Download</button>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

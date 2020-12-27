@@ -2,31 +2,31 @@
 
 namespace App\Controller;
 
-use App\Entity\AdSearch;
-use App\Form\AdSearchType;
+use App\Entity\PostSearch;
+use App\Form\PostSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\AdRepository;
+use App\Repository\PostRepository;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
      */
-    public function index(AdRepository $repository, Request $request): Response
+    public function index(PostRepository $repository, Request $request): Response
     {
-        $search = new AdSearch();
-        $form = $this->createForm(AdSearchType::class, $search);
+        $search = new PostSearch();
+        $form = $this->createForm(PostSearchType::class, $search);
         $form->handleRequest($request);
         if ($search->getField() == '' && $search->getCategory()) {
-            $ads = $repository->findAll();
+            $posts = $repository->findAll();
         } else {
-            $ads = $repository->findAdsByField($search->getField(), $search->getCategory());
+            $posts = $repository->findPostsByField($search->getField(), $search->getCategory());
         }
         return $this->render('home/index.html.twig', [
-            'ads' => $ads,
+            'posts' => $posts,
             'form' => $form->createView()
         ]);
     }

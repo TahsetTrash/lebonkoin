@@ -4,8 +4,8 @@
 
 {% block body %}
     <div class="jumbotron text-center text-white bg-primary">
-        <h1>La Bonne Pub</h1>
-        <h4>La Bonne Pub te permet de poster ta pub ici pour faire découvrir ton travail au monde !</h4>
+        <h1>Indie Game Share</h1>
+        <h4>Share your indie game to the world !</h4>
     </div>
     <div class="jumbotron">
         <div class="container">
@@ -20,13 +20,13 @@
                     {{ form_row(form.category) }}
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-primary">Chercher une pub</button>
+                    <button type="submit" class="btn btn-primary">Search for a game</button>
                 </div>
             </div>
 
             {{ form_end(form) }}
         </div>
     </div>
-    {% include 'ad/ads.html.twig' %}
+    {% include 'post/posts.html.twig' %}
 {% endblock %}
 

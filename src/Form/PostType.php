@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Ad;
+use App\Entity\Post;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -11,27 +11,26 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
-class AdType extends AbstractType
+class PostType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
             ->add('description')
-            ->add('price')
+            ->add('link')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name'
-            ])
-            ->add('imagefile', FileType::class, [
+                'choice_label' => 'name',
                 'required' => false
+                
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Ad::class,
+            'data_class' => Post::class,
         ]);
     }
 }

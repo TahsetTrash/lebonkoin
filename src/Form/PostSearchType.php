@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\AdSearch;
+use App\Entity\PostSearch;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdSearchType extends AbstractType
+class PostSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -32,7 +32,7 @@ class AdSearchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => AdSearch::class,
+            'data_class' => PostSearch::class,
             'method' => 'get',
             'csrf_protection' => false
         ]);

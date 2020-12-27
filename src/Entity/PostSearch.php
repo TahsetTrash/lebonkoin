@@ -6,13 +6,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 
-class AdSearch
+class PostSearch
 {
 
     private $field;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="ads")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
@@ -27,9 +27,9 @@ class AdSearch
 
     /**
      * @param string|null $field
-     * @return AdSearch
+     * @return PostSearch
      */
-    public function setField(?string $field): AdSearch
+    public function setField(?string $field): PostSearch
     {
         $this->field = $field;
         return $this;

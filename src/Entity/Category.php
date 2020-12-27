@@ -24,13 +24,13 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ad", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="category")
      */
-    private $ads;
+    private $posts;
 
     public function __construct()
     {
-        $this->ads = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,30 +51,30 @@ class Category
     }
 
     /**
-     * @return Collection|Ad[]
+     * @return Collection|Post[]
      */
-    public function getAds(): Collection
+    public function getPosts(): Collection
     {
-        return $this->ads;
+        return $this->posts;
     }
 
-    public function addAd(Ad $ad): self
+    public function addPost(Post $post): self
     {
-        if (!$this->ads->contains($ad)) {
-            $this->ads[] = $ad;
-            $ad->setCategory($this);
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeAd(Ad $ad): self
+    public function removePost(Post $post): self
     {
-        if ($this->ads->contains($ad)) {
-            $this->ads->removeElement($ad);
+        if ($this->posts->contains($post)) {
+            $this->posts->removeElement($post);
             // set the owning side to null (unless already changed)
-            if ($ad->getCategory() === $this) {
-                $ad->setCategory(null);
+            if ($post->getCategory() === $this) {
+                $post->setCategory(null);
             }
         }
 

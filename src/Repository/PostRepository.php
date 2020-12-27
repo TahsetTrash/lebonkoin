@@ -2,28 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\Ad;
+use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Ad|null find($id, $lockMode = null, $lockVersion = null)
- * @method Ad|null findOneBy(array $criteria, array $orderBy = null)
- * @method Ad[]    findAll()
- * @method Ad[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Post|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Post|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Post[]    findAll()
+ * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AdRepository extends ServiceEntityRepository
+class PostRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Ad::class);
+        parent::__construct($registry, Post::class);
     }
 
     // /**
-    //  * @return Ad[] Returns an array of Ad objects
+    //  * @return Post[] Returns an array of Post objects
     //  */
 
-    public function findAdsByOwnerId($ownerId)
+    public function findPostsByOwnerId($ownerId)
     {
         return $this->createQueryBuilder('a')
             ->where('a.ownerId = :val')
@@ -33,7 +33,7 @@ class AdRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAdsByField($field, $category)
+    public function findPostsByField($field, $category)
     {
         $query = $this->createQueryBuilder('a');
         return $query
@@ -49,15 +49,15 @@ class AdRepository extends ServiceEntityRepository
     }
 
 
-    /*
-    public function findOneBySomeField($value): ?Ad
+    
+    public function findPostById($id): ?Post
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('a.id = :val')
+            ->setParameter('val', $id)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+    
 }

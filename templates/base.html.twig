@@ -12,7 +12,7 @@
 
 <!--Setup the navigation bar-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand">La Bonne Pub</a>
+    <a class="navbar-brand">Indie Game Share</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -28,19 +28,19 @@
             {% if not app.user %}
                 <li class="nav-item">
                     <a href="{{ path('security_login') }}" class="nav-link">
-                        Connexion
+                        Log In
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ path('security_registration') }}" class="nav-link">
-                        Inscription
+                        Sign In
                     </a>
                 </li>
 
             {% else %}
                 <li class="nav-item">
                     <a href="{{ path('security_logout') }}" class="nav-link">
-                        Déconnexion
+                        Sign out
                     </a>
                 </li>
                 <li class="nav-item dropdown">
@@ -49,14 +49,14 @@
                         {{ app.user.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a href="{{ path('user_ads') }}" class="dropdown-item">
-                            Mes pubs
+                        <a href="{{ path('user_posts') }}" class="dropdown-item">
+                            My Posts
                         </a>
-                        <a href="{{ path('create_ad') }}" class="dropdown-item">
-                            Créer une pub
+                        <a href="{{ path('create_post') }}" class="dropdown-item">
+                            Create a post
                         </a>
                         <a href="{{ path('modify_user') }}" class="dropdown-item">
-                            Modifier mes infos
+                            Modify my informations
                         </a>
                     </div>
                 </li>
